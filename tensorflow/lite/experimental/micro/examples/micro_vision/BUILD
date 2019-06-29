@@ -1,14 +1,14 @@
 # Description:
 #   TensorFlow Lite microcontroller example.
 
-package(default_visibility = ["//visibility:public"])
-
-licenses(["notice"])  # Apache 2.0
-
 load(
     "//tensorflow/lite/experimental/micro/testing:micro_test.bzl",
     "tflite_micro_cc_test",
 )
+
+package(default_visibility = ["//visibility:public"])
+
+licenses(["notice"])  # Apache 2.0
 
 cc_library(
     name = "model_settings",
@@ -71,5 +71,21 @@ tflite_micro_cc_test(
         "//tensorflow/lite/c:c_api_internal",
         "//tensorflow/lite/experimental/micro:micro_framework",
         "//tensorflow/lite/experimental/micro/testing:micro_test",
+    ],
+)
+
+cc_binary(
+    name = "micro_vision",
+    srcs = [
+        "main.cc",
+    ],
+    deps = [
+        ":image_provider",
+        ":model_settings",
+        ":person_detect_model_data",
+        "//tensorflow/lite:schema_fbs_version",
+        "//tensorflow/lite/experimental/micro:micro_framework",
+        "//tensorflow/lite/experimental/micro/kernels:all_ops_resolver",
+        "//tensorflow/lite/schema:schema_fbs",
     ],
 )
